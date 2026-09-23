@@ -99,3 +99,26 @@ module.exports.deleteListing = async(req,res) =>{
     res.redirect("/listings");
 
 };
+
+module.exports.searchListings = async (req, res) => {
+    let { q } = req.query;
+
+    if (!q || q.trim() === "") {
+        req.flash("error", "Please enter something to search");
+        return res.redirect("/listings");
+    }
+
+    let allListings = await Listing.find({
+        $or: [
+            { title: { $regex: q, $options: "i" } },
+            { location: { $regex: q, $options: "i" } },
+            { country: { $regex: q, $options: "i" } },
+        ],
+    });
+
+    if (allListings.length === 0) {
+        req.flash("error", `No listings found for "${q}"`);
+    }
+
+    res.render("lisitngs/index.ejs", { allListings, searchQuery: q });
+};

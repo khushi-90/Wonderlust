@@ -14,9 +14,14 @@ router
 .get(wrapAsync (ListingController.index))
 .post( upload.single('listing[image]'),validateListing , isLoggedIn,wrapAsync(ListingController.createListing));
 
+//search route
+router.get("/search", wrapAsync(ListingController.searchListings));
+
 
  // new route
 router.get("/new" , isLoggedIn ,ListingController.renderNewForm);
+
+
 
 
 router.route("/:id")
