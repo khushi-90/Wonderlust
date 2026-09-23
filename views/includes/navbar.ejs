@@ -18,6 +18,33 @@
     padding: 0.5rem 3rem 0.5rem 3rem;
     font-size: 1 rem;
   }
+  .btn-nearby{
+  background-color: #fff;
+  color: #fe424d;
+  border: 1.5px solid #fe424d;
+  border-radius: 20px;
+  padding: 0.3rem 0.8rem;
+  margin-left: 0.5 rem;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all 0.2s ease-in-out;
+}
+.btn-nearby:hover{
+  background-color: #fe424d;
+  color: #fff;
+}
+.btn-nearby i{
+  font-size: 0.9rem;
+}
+.btn-nearby.loading i{
+  animation: spin 1s linear infinite;
+}
+@keyframes spin{
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
 
 </style>
 
@@ -43,8 +70,13 @@
       </form>
 
       </div>
+
        
       <div class="navbar-nav ms-auto">
+        <button type="button" id="nearbyBtn" class="btn btn-nearby" onclick="findNearby()">
+    <i class="fa-solid fa-location-crosshairs"></i>
+    <span id="nearbyText">Near me</span>
+     </button>
          <a class="nav-link" href="/listings/new">Airbnb your home</a>
         <% if(!currUser) { %>
         <a class="nav-link"  href="/signup"><b>Signup</b></a>
@@ -58,3 +90,31 @@
     </div>
   </div>
 </nav>
+
+<script>
+function findNearby() {
+    const btn = document.getElementById("nearbyBtn");
+    const text = document.getElementById("nearbyText");
+
+    if (!navigator.geolocation) {
+        alert("Geolocation is not supported by your browser");
+        return;
+    }
+
+    btn.classList.add("loading");
+    text.innerText = "Locating...";
+
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            window.location.href = `/listings/nearby?lat=${lat}&lng=${lng}`;
+        },
+        () => {
+            btn.classList.remove("loading");
+            text.innerText = "Near me";
+            alert("Unable to retrieve your location");
+        }
+    );
+}
+</script>

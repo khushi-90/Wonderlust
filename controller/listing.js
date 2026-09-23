@@ -122,3 +122,30 @@ module.exports.searchListings = async (req, res) => {
 
     res.render("lisitngs/index.ejs", { allListings, searchQuery: q });
 };
+
+module.exports.nearbyListings = async (req, res) => {
+    let { lat, lng } = req.query;
+
+    if (!lat || !lng) {
+        req.flash("error", "Location access is needed to find nearby listings");
+        return res.redirect("/listings");
+    }
+
+    let allListings = await Listing.find({
+        geometry: {
+            $near: {
+                $geometry: {
+                    type: "Point",
+                    coordinates: [parseFloat(lng), parseFloat(lat)],
+                },
+                $maxDistance:  100000, // 100 km
+            },
+        },
+    });
+
+    if (allListings.length === 0) {
+        req.flash("error", "No listings found near you");
+    }
+
+    res.render("lisitngs/index.ejs", { allListings, nearbyMode: true });
+};

@@ -17,6 +17,9 @@ router
 //search route
 router.get("/search", wrapAsync(ListingController.searchListings));
 
+//neaby route
+router.get("/nearby", wrapAsync(ListingController.nearbyListings));
+
 
  // new route
 router.get("/new" , isLoggedIn ,ListingController.renderNewForm);

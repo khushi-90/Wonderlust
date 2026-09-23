@@ -60,6 +60,7 @@ const mongoose = require("mongoose");
     }
    
  });
+ listingSchema.index({ geometry: "2dsphere" });
 
  const Listing = mongoose.model("Listing" , listingSchema);
  module.exports = Listing;
