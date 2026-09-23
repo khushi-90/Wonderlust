@@ -51,8 +51,27 @@
            <input type="text"  name="listing[location]" placeholder="Delhi" class="form-control" required>
             <div class="invalid-feedback">Please enter the valid location</div>
             </div>
+               <label for="category" class="form-label">Category</label>
+       <select name="listing[category]" class="form-select" required>
+        <option value="" disabled selected>Select a category</option>
+        <option value="Trending">Trending</option>
+        <option value="Rooms">Rooms</option>
+        <option value="Iconic cities">Iconic cities</option>
+        <option value="Mountains">Mountains</option>
+        <option value="Castles">Castles</option>
+        <option value="Amazing Pools">Amazing Pools</option>
+        <option value="Camping">Camping</option>
+        <option value="Farm">Farm</option>
+        <option value="Arctic">Arctic</option>
+        <option value="Domes">Domes</option>
+        <option value="Boats">Boats</option>
+        </select>
+       <div class="invalid-feedback">Please select a category</div>
+       <br> <br>
             <button class="btn btn-dark add-btn">Add</button>
             <br> <br> <br>
+                     <div class="mb-3">
+    </div>
 
     </form>
     </div>

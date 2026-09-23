@@ -1,3 +1,4 @@
+ const mongoose = require("mongoose");
  const Listing = require("../models/listing");
  const mbxGeoCoding = require('@mapbox/mapbox-sdk/services/geoCoding');
  const mapToken = process.env.MAP_TOKEN;
@@ -13,9 +14,22 @@ module.exports.renderNewForm =  (req , res) =>{
 
     res.render("lisitngs/new.ejs");
 };
+ const CATEGORIES = [
+    "Trending", "Rooms", "Iconic cities", "Mountains",
+    "Castles", "Amazing Pools", "Camping", "Farm", "Arctic", "Domes", "Boats",
+];
 
 module.exports.showListings = async(req , res) =>{
     let {id} = req.params;
+    if (CATEGORIES.includes(id)) {
+        let allListings = await Listing.find({ category: id });
+        return res.render("lisitngs/index.ejs", { allListings, category: id });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        req.flash("error", "Invalid listing or category");
+        return res.redirect("/listings");
+    }
      const listing =  await Listing.findById(id).populate({
         path: "review",
         populate:{

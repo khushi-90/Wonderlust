@@ -1,4 +1,4 @@
- const mongoose = require("mongoose");
+const mongoose = require("mongoose");
  const Schema = mongoose.Schema;
  const Review = require("./review.js");
 
@@ -15,6 +15,22 @@
     price : Number,
     location : String,
     country : String,
+    category: {
+    type: String,
+    enum: [
+        "Trending",
+        "Rooms",
+        "Iconic cities",
+        "Mountains",
+        "Castles",
+        "Amazing Pools",
+        "Camping",
+        "Farm",
+        "Arctic",
+        "Domes",
+        "Boats",
+    ],
+},
     review : [
         {
             type : Schema.Types.ObjectId,
