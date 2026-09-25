@@ -128,3 +128,57 @@ body{
     height: 400px;
     width: 80vh;
 }
+
+/* ===== Mobile Responsiveness ===== */
+
+@media (max-width: 768px) {
+  #map{
+    width: 100%;
+    height: 300px;
+  }
+
+  .show-img{
+    height: 22vh;
+  }
+
+  .navbar{
+    height: auto;
+    padding: 0.5rem 0;
+  }
+
+  .f-info{
+    height: auto;
+    padding: 1.5rem 0;
+  }
+
+  .f-info-links,
+  .f-info-socials,
+  .f-info-brand{
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .btns{
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .btns .btn{
+    width: 100%;
+    margin: 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .show-img{
+    height: 18vh;
+  }
+
+  #map{
+    height: 220px;
+  }
+
+  .card-text{
+    font-size: 0.9rem;
+  }
+}
