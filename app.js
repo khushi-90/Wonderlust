@@ -2,7 +2,7 @@ if(process.env.NODE_ENV != "production") {
     require("dotenv").config();
 }
 
-
+const ExpressError = require("./utils/ExpressError.js");
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -34,7 +34,7 @@ async function main() {
     
 }
 
-app.set("view enjine" ,"ejs");
+app.set("view engine" ,"ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.json());
 app.use(express.urlencoded ({extended: true}));
@@ -51,7 +51,7 @@ app.use(express.static(path.join(__dirname,"/public")));
 
      });
 
-     store.on("error" , () =>{
+     store.on("error" , (err) =>{
         console.log("ERROR in Mogno Session store", err);
      });
 

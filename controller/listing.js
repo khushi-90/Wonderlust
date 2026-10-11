@@ -3,6 +3,7 @@
  const mbxGeoCoding = require('@mapbox/mapbox-sdk/services/geocoding');
  const mapToken = process.env.MAP_TOKEN;
  const geocodingClient = mbxGeoCoding({ accessToken: mapToken});
+ const escapeRegex = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
  
  module.exports.index = async (req , res) =>{
@@ -103,16 +104,17 @@ module.exports.deleteListing = async(req,res) =>{
 module.exports.searchListings = async (req, res) => {
     let { q } = req.query;
 
-    if (!q || q.trim() === "") {
+    if (typeof q !== "string" || q.trim() === "") {
         req.flash("error", "Please enter something to search");
         return res.redirect("/listings");
     }
+       const safeQ = escapeRegex(q.trim());
 
     let allListings = await Listing.find({
         $or: [
-            { title: { $regex: q, $options: "i" } },
-            { location: { $regex: q, $options: "i" } },
-            { country: { $regex: q, $options: "i" } },
+            { title: { $regex: safeQ, $options: "i" } },
+            { location: { $regex: safeQ, $options: "i" } },
+            { country: { $regex: safeQ, $options: "i" } },
         ],
     });
 
